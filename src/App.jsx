@@ -1,67 +1,68 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import imgLogo from '/img/Logo.jpg';
 import './App.css';
 
-function Home({ onConversarClick }) {
+function App() {
   const [nombreUsuario, setNombreUsuario] = useState('');
+  const [showChat, setShowChat] = useState(false);
+  const [mensaje1, setMensaje1] = useState('');
+  const [mensaje2, setMensaje2] = useState('');
 
   const handleNombreUsuarioChange = (event) => {
     setNombreUsuario(event.target.value);
+  };
+
+  const handleConversarClick = () => {
+    setShowChat(true);
+    setMensaje1('Hola')
+  };
+
+  const handleEnviarClick = () => {
+    // Aquí puedes implementar la lógica para enviar los mensajes
+    // Por ejemplo, podrías guardar los mensajes en un estado o enviarlos a un servidor
   };
 
   return (
     <>
       <div className="center-container">
         <div className="container">
-          <img className="rounded-image" src={imgLogo} alt="Imagen Redondeada"></img>
-          <input
-            type="text"
-            id="nombre-usuario"
-            placeholder="Nombre del Usuario"
-            value={nombreUsuario}
-            onChange={handleNombreUsuarioChange}
-          ></input>
-          <button id="conversar-button" onClick={() => onConversarClick(nombreUsuario)}>
-            Conversar
-          </button>
+          <img className="rounded-image" src={imgLogo} alt="Imagen Redondeada" />
+          {!showChat && (
+            <>
+              <input
+                type="text"
+                id="nombre-usuario"
+                placeholder="Nombre del Usuario"
+                value={nombreUsuario}
+                onChange={handleNombreUsuarioChange}
+              />
+              <button id="conversar-button" onClick={handleConversarClick}>
+                Conversar
+              </button>
+            </>
+          )}
+          {showChat && (
+            <>
+              <textarea
+                id="chat-input-1"
+                placeholder="Escribe tu mensaje..."
+                value={mensaje1}
+                onChange={(e) => setMensaje1(e.target.value)}
+              ></textarea>
+              <textarea
+                id="chat-input-2"
+                placeholder="Escribe tu mensaje..."
+                value={mensaje2}
+                onChange={(e) => setMensaje2(e.target.value)}
+              ></textarea>
+              <button id="send-button" onClick={handleEnviarClick}>
+                Enviar
+              </button>
+            </>
+          )}
         </div>
       </div>
     </>
-  );
-}
-
-function Chat({ nombreUsuario }) {
-  // Aquí puedes implementar la lógica para la página de chat
-  return (
-    <div>
-      <h2>Página de Chat</h2>
-      <p>Bienvenido, {nombreUsuario}! Comienza la conversación.</p>
-    </div>
-  );
-}
-
-function App() {
-  const [showChat, setShowChat] = useState(false);
-  const [nombreUsuario, setNombreUsuario] = useState('');
-
-  const handleConversarClick = (nombreUsuario) => {
-    setShowChat(true);
-    setNombreUsuario(nombreUsuario);
-  };
-
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          {showChat ? (
-            <Chat nombreUsuario={nombreUsuario} />
-          ) : (
-            <Home onConversarClick={handleConversarClick} />
-          )}
-        </Route>
-      </Switch>
-    </Router>
   );
 }
 
