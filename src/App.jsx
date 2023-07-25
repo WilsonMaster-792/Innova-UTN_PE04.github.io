@@ -9,7 +9,7 @@ function App() {
     const nombreUsuario = document.getElementById('nombre-usuario').value.trim();
     if (nombreUsuario !== '') {
       // Redirigir a la página de chat con el nombre de usuario como parámetro
-      window.location.href = `/src/pages/chat/chat.html?nombreUsuario=${encodeURIComponent(nombreUsuario)}`;
+      window.location.href = `./pages/chat/chat.html?nombreUsuario=${encodeURIComponent(nombreUsuario)}`;
     }
   };
 
