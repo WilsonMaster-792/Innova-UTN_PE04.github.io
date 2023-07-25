@@ -1,30 +1,67 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import imgLogo from '/img/Logo.jpg';
 import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0);
+function Home({ onConversarClick }) {
+  const [nombreUsuario, setNombreUsuario] = useState('');
 
-  const handleConversarClick = () => {
-    const nombreUsuario = document.getElementById('nombre-usuario').value.trim();
-    if (nombreUsuario !== '') {
-      // Redirigir a la página de chat con el nombre de usuario como parámetro
-      window.location.href = `./pages/chat/chat.html?nombreUsuario=${encodeURIComponent(nombreUsuario)}`;
-    }
+  const handleNombreUsuarioChange = (event) => {
+    setNombreUsuario(event.target.value);
   };
 
   return (
     <>
-      <div class="center-container">
-        <div class="container">
-          <img class="rounded-image" src={imgLogo} alt="Imagen Redondeada"></img>
-          <input type="text" id="nombre-usuario" placeholder="Nombre del Usuario"></input>
-          <button id="conversar-button" onClick={handleConversarClick}>
+      <div className="center-container">
+        <div className="container">
+          <img className="rounded-image" src={imgLogo} alt="Imagen Redondeada"></img>
+          <input
+            type="text"
+            id="nombre-usuario"
+            placeholder="Nombre del Usuario"
+            value={nombreUsuario}
+            onChange={handleNombreUsuarioChange}
+          ></input>
+          <button id="conversar-button" onClick={() => onConversarClick(nombreUsuario)}>
             Conversar
           </button>
         </div>
       </div>
     </>
+  );
+}
+
+function Chat({ nombreUsuario }) {
+  // Aquí puedes implementar la lógica para la página de chat
+  return (
+    <div>
+      <h2>Página de Chat</h2>
+      <p>Bienvenido, {nombreUsuario}! Comienza la conversación.</p>
+    </div>
+  );
+}
+
+function App() {
+  const [showChat, setShowChat] = useState(false);
+  const [nombreUsuario, setNombreUsuario] = useState('');
+
+  const handleConversarClick = (nombreUsuario) => {
+    setShowChat(true);
+    setNombreUsuario(nombreUsuario);
+  };
+
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          {showChat ? (
+            <Chat nombreUsuario={nombreUsuario} />
+          ) : (
+            <Home onConversarClick={handleConversarClick} />
+          )}
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
