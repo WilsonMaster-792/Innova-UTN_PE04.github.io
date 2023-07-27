@@ -64,13 +64,7 @@ function App() {
                 value={nombreUsuario}
                 onChange={handleNombreUsuarioChange}
               />
-              <input
-                type="text"
-                id="id-usuario"
-                placeholder="ID"
-                value={keyUsuario}
-                onChange={handleKeyUsuarioChange}
-              />
+              
               <button id="conversar-button" onClick={handleConversarClick}>
                 Conversar
               </button>
