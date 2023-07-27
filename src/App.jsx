@@ -24,7 +24,7 @@ function App() {
   const handleEnviarClick = async () => {
     const OPENAI_API_KEY = keyUsuario; // Reemplaza 'TU_API_KEY' con tu API key de OpenAI
     const apiEndpoint = 'https://api.openai.com/v1/completions';
-    const promtDirectives = 'Mi nombre es '+nombreUsuario +'Te llamarás'+' Gummy '+' Responde al siguiente mensaje como si fueras un juguete amigable por favor: '+mensaje1
+    const promtDirectives = 'Mi nombre es '+nombreUsuario +'Te llamarás '+'Gummy '+' Responde al siguiente mensaje como si fueras un juguete amigable por favor: '+mensaje1
     const params = {
       model: 'text-davinci-003',
       prompt: promtDirectives, // Usamos el mensaje1 como prompt para la API
@@ -64,7 +64,13 @@ function App() {
                 value={nombreUsuario}
                 onChange={handleNombreUsuarioChange}
               />
-              
+              <input
+                type="text"
+                id="id-usuario"
+                placeholder="ID"
+                value={keyUsuario}
+                onChange={handleKeyUsuarioChange}
+              />
               <button id="conversar-button" onClick={handleConversarClick}>
                 Conversar
               </button>
