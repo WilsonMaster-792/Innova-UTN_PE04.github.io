@@ -86,7 +86,7 @@ function App() {
               ></textarea>
               <textarea
                 id="chat-input-2"
-                placeholder="Escribe tu mensaje..."
+                placeholder=""
                 value={mensaje2}
                 readOnly // Usamos readOnly para que no se pueda editar el segundo campo
               ></textarea>
