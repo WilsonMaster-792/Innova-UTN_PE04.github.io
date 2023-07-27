@@ -43,3 +43,10 @@ button {
   border-radius: 10px;
   cursor: pointer;
 }
+
+textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  height: 100px; /* Ajusta esta altura según tus preferencias */
+  width: 200px;
+}

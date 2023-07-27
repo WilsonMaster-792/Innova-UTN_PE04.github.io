@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import imgLogo from '/img/Logo.jpg';
 import './App.css';
+import axios from 'axios';
 
 function App() {
   const [nombreUsuario, setNombreUsuario] = useState('');
@@ -14,12 +15,36 @@ function App() {
 
   const handleConversarClick = () => {
     setShowChat(true);
-    setMensaje1('Hola')
+    setMensaje2('Hola ' + nombreUsuario);
   };
 
-  const handleEnviarClick = () => {
-    // Aquí puedes implementar la lógica para enviar los mensajes
-    // Por ejemplo, podrías guardar los mensajes en un estado o enviarlos a un servidor
+  const handleEnviarClick = async () => {
+    const OPENAI_API_KEY = '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'; // Reemplaza 'TU_API_KEY' con tu API key de OpenAI
+    const apiEndpoint = 'https://api.openai.com/v1/completions';
+    const promtDirectives = 'Mi nombre es '+nombreUsuario +'Te llamarás '+'Gummy'+' Responde al siguiente mensaje como si fueras un juguete amigable por favor: '+mensaje1
+    const params = {
+      model: 'text-davinci-003',
+      prompt: promtDirectives, // Usamos el mensaje1 como prompt para la API
+      max_tokens: 4028,
+      temperature: 0
+    };
+
+    try {
+      const response = await axios.post(apiEndpoint, params, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${OPENAI_API_KEY}`
+        }
+      });
+      console.log('Respuesta de la API:', response.data);
+      // El resultado de la API estará en response.data.choices[0].text
+      const resultadoAPI = response.data.choices[0].text;
+
+      // Actualizamos el estado mensaje2 con el resultado de la API
+      setMensaje2(resultadoAPI);
+    } catch (error) {
+      console.error('Error al realizar la solicitud a la API de OpenAI:', error);
+    }
   };
 
   return (
@@ -53,7 +78,7 @@ function App() {
                 id="chat-input-2"
                 placeholder="Escribe tu mensaje..."
                 value={mensaje2}
-                onChange={(e) => setMensaje2(e.target.value)}
+                readOnly // Usamos readOnly para que no se pueda editar el segundo campo
               ></textarea>
               <button id="send-button" onClick={handleEnviarClick}>
                 Enviar
