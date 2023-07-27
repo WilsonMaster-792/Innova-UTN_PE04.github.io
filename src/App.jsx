@@ -5,6 +5,7 @@ import axios from 'axios';
 
 function App() {
   const [nombreUsuario, setNombreUsuario] = useState('');
+  const [keyUsuario, setkeyUsuario] = useState('');
   const [showChat, setShowChat] = useState(false);
   const [mensaje1, setMensaje1] = useState('');
   const [mensaje2, setMensaje2] = useState('');
@@ -12,16 +13,18 @@ function App() {
   const handleNombreUsuarioChange = (event) => {
     setNombreUsuario(event.target.value);
   };
-
+  const handleKeyUsuarioChange = (event) => {
+    setkeyUsuario(event.target.value);
+  };
   const handleConversarClick = () => {
     setShowChat(true);
     setMensaje2('Hola ' + nombreUsuario);
   };
 
   const handleEnviarClick = async () => {
-    const OPENAI_API_KEY = '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'; // Reemplaza 'TU_API_KEY' con tu API key de OpenAI
+    const OPENAI_API_KEY = keyUsuario; // Reemplaza 'TU_API_KEY' con tu API key de OpenAI
     const apiEndpoint = 'https://api.openai.com/v1/completions';
-    const promtDirectives = 'Mi nombre es '+nombreUsuario +'Te llamarás '+'Gummy'+' Responde al siguiente mensaje como si fueras un juguete amigable por favor: '+mensaje1
+    const promtDirectives = 'Mi nombre es '+nombreUsuario +'Te llamarás '+' Gummy '+' Responde al siguiente mensaje como si fueras un juguete amigable por favor: '+mensaje1
     const params = {
       model: 'text-davinci-003',
       prompt: promtDirectives, // Usamos el mensaje1 como prompt para la API
@@ -60,6 +63,13 @@ function App() {
                 placeholder="Nombre del Usuario"
                 value={nombreUsuario}
                 onChange={handleNombreUsuarioChange}
+              />
+              <input
+                type="text"
+                id="id-usuario"
+                placeholder="ID"
+                value={keyUsuario}
+                onChange={handleKeyUsuarioChange}
               />
               <button id="conversar-button" onClick={handleConversarClick}>
                 Conversar
